@@ -13,12 +13,20 @@ public class GameLoop extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol; // 1280 pixels
     final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
 
+    InputHandler inputHandler = new InputHandler();
     Thread gameThread;
+
+    // Set player's default position
+    int playerX = 600;
+    int playerY = 500;
+    int playerSpeed = 4;
 
     public GameLoop() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
+        this.addKeyListener(inputHandler);
+        this.setFocusable(true);
     }
 
     public void startGameThread() {
@@ -36,7 +44,18 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void update() {
-
+        if(inputHandler.upPressed) {
+            playerY -= playerSpeed;
+        }
+        if(inputHandler.downPressed) {
+            playerY += playerSpeed;
+        }
+        if(inputHandler.leftPressed) {
+            playerX -= playerSpeed;
+        }
+        if(inputHandler.rightPressed) {
+            playerX += playerSpeed;
+        }
     }
 
     public void paint(Graphics g) {
@@ -45,7 +64,7 @@ public class GameLoop extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
 
-        g2.fillRect(600, 500, tileSize, tileSize);
+        g2.fillRect(playerX, playerY, tileSize, tileSize);
 
         g2.dispose();
     }
