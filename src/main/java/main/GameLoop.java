@@ -1,13 +1,17 @@
 package main;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GameLoop extends JPanel implements Runnable {
+
+    // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
     final int scale = 4;
 
-    final int tileSize = originalTileSize * scale; // 64x64 tile
+    public final int tileSize = originalTileSize * scale; // 64x64 tile
     final int maxScreenCol = 20;
     final int maxScreenRow = 16;
     final int screenWidth = tileSize * maxScreenCol; // 1280 pixels
@@ -17,11 +21,7 @@ public class GameLoop extends JPanel implements Runnable {
 
     InputHandler inputHandler = new InputHandler();
     Thread gameThread;
-
-    // Set player's default position
-    int playerX = 600;
-    int playerY = 500;
-    int playerSpeed = 4;
+    Player player = new Player(this, inputHandler);
 
     public GameLoop() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -69,27 +69,15 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (inputHandler.upPressed) {
-            playerY -= playerSpeed;
-        }
-        if (inputHandler.downPressed) {
-            playerY += playerSpeed;
-        }
-        if (inputHandler.leftPressed) {
-            playerX -= playerSpeed;
-        }
-        if (inputHandler.rightPressed) {
-            playerX += playerSpeed;
-        }
+        player.update();
     }
 
     public void paint(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.WHITE);
 
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        player.draw(g2);
 
         g2.dispose();
     }
