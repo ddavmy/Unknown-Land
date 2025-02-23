@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GameLoop extends JPanel {
     final int originalTileSize = 16; // 16x16 tile
@@ -11,4 +12,10 @@ public class GameLoop extends JPanel {
     final int maxScreenRow = 16;
     final int screenWidth = tileSize * maxScreenCol; // 1280 pixels
     final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
+
+    public GameLoop() {
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+    }
 }
