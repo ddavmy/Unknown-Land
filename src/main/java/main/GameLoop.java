@@ -13,6 +13,8 @@ public class GameLoop extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol; // 1280 pixels
     final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
 
+    int FPS = 60;
+
     InputHandler inputHandler = new InputHandler();
     Thread gameThread;
 
@@ -36,24 +38,37 @@ public class GameLoop extends JPanel implements Runnable {
 
     @Override
     public void run() {
+
+        double drawInterval = 1000000000.0 / FPS; // 0.01666 seconds
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+
         while (gameThread.isAlive()) {
-            System.out.println("Game loop started");
-            update();
-            repaint();
+
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta--;
+            }
         }
     }
 
     public void update() {
-        if(inputHandler.upPressed) {
+        if (inputHandler.upPressed) {
             playerY -= playerSpeed;
         }
-        if(inputHandler.downPressed) {
+        if (inputHandler.downPressed) {
             playerY += playerSpeed;
         }
-        if(inputHandler.leftPressed) {
+        if (inputHandler.leftPressed) {
             playerX -= playerSpeed;
         }
-        if(inputHandler.rightPressed) {
+        if (inputHandler.rightPressed) {
             playerX += playerSpeed;
         }
     }
