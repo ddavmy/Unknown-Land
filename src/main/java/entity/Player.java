@@ -64,28 +64,121 @@ public class Player extends Entity {
             direction = "up";
             y -= speed;
         }
-        if (inputHandler.downPressed) {
+        else if (inputHandler.downPressed) {
             direction = "down";
             y += speed;
         }
-        if (inputHandler.leftPressed) {
+        else if (inputHandler.leftPressed) {
             direction = "left";
             x -= speed;
         }
-        if (inputHandler.rightPressed) {
+        else if (inputHandler.rightPressed) {
             direction = "right";
             x += speed;
+        }
+
+        spriteCounter++;
+        if (spriteCounter > 6) {
+            if (spriteNumber == 1) {
+                spriteNumber = 2;
+            } else if (spriteNumber == 2) {
+                spriteNumber = 3;
+            } else if (spriteNumber == 3) {
+                spriteNumber = 4;
+            } else if (spriteNumber == 4) {
+                spriteNumber = 5;
+            } else if (spriteNumber == 5) {
+                spriteNumber = 6;
+            } else if (spriteNumber == 6) {
+                spriteNumber = 1;
+            }
+            spriteCounter = 0;
         }
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = switch (direction) {
-            case "up" -> up1;
-            case "down" -> down1;
-            case "left" -> left1;
-            case "right" -> right1;
-            default -> null;
-        };
+        BufferedImage image = null;
+        switch (direction) {
+            case "up":
+                if (spriteNumber == 1) {
+                    image = up1;
+                }
+                if (spriteNumber == 2) {
+                    image = up2;
+                }
+                if (spriteNumber == 3) {
+                    image = up3;
+                }
+                if (spriteNumber == 4) {
+                    image = up4;
+                }
+                if (spriteNumber == 5) {
+                    image = up5;
+                }
+                if (spriteNumber == 6) {
+                    image = up6;
+                }
+                break;
+            case "down":
+                if (spriteNumber == 1) {
+                    image = down1;
+                }
+                if (spriteNumber == 2) {
+                    image = down2;
+                }
+                if (spriteNumber == 3) {
+                    image = down3;
+                }
+                if (spriteNumber == 4) {
+                    image = down4;
+                }
+                if (spriteNumber == 5) {
+                    image = down5;
+                }
+                if (spriteNumber == 6) {
+                    image = down6;
+                }
+                break;
+            case "left":
+                if (spriteNumber == 1) {
+                    image = left1;
+                }
+                if (spriteNumber == 2) {
+                    image = left2;
+                }
+                if (spriteNumber == 3) {
+                    image = left3;
+                }
+                if (spriteNumber == 4) {
+                    image = left4;
+                }
+                if (spriteNumber == 5) {
+                    image = left5;
+                }
+                if (spriteNumber == 6) {
+                    image = left6;
+                }
+                break;
+            case "right":
+                if (spriteNumber == 1) {
+                    image = right1;
+                }
+                if (spriteNumber == 2) {
+                    image = right2;
+                }
+                if (spriteNumber == 3) {
+                    image = right3;
+                }
+                if (spriteNumber == 4) {
+                    image = right4;
+                }
+                if (spriteNumber == 5) {
+                    image = right5;
+                }
+                if (spriteNumber == 6) {
+                    image = right6;
+                }
+        }
         g2.drawImage(image, x, y, gl.tileSize, gl.tileSize, null);
     }
 }
