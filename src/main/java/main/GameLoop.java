@@ -30,6 +30,23 @@ public class GameLoop extends JPanel implements Runnable {
     public void run() {
         while (gameThread.isAlive()) {
             System.out.println("Game loop started");
+            update();
+            repaint();
         }
+    }
+
+    public void update() {
+
+    }
+
+    public void paint(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.WHITE);
+
+        g2.fillRect(600, 500, tileSize, tileSize);
+
+        g2.dispose();
     }
 }
