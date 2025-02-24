@@ -17,24 +17,16 @@ public class Player extends Entity {
 
     String[] directions = {"up", "down", "left", "right"};
 
-    public final int screenX;
-    public final int screenY;
-
     public Player(GameLoop gl, InputHandler inputHandler) {
         this.gl = gl;
         this.inputHandler = inputHandler;
-
-        screenX = gl.screenWidth / 2 - gl.tileSize / 2;
-        screenY = gl.screenHeight / 2 - gl.tileSize / 2;
-
         setDefaultValues();
         loadPlayerImages();
     }
 
     public void setDefaultValues() {
-        worldX = (gl.maxWorldCol / 2) * gl.tileSize - (gl.tileSize / 2);
-        worldY = (gl.maxWorldRow / 2) * gl.tileSize - (gl.tileSize / 2);
-
+        x = 600;
+        y = 500;
         speed = 4;
         direction = "up";
     }
@@ -65,20 +57,20 @@ public class Player extends Entity {
         if (inputHandler.upPressed  || inputHandler.downPressed || inputHandler.leftPressed || inputHandler.rightPressed) {
             if (inputHandler.upPressed) {
                 direction = "up";
-                worldY -= speed;
+                y -= speed;
             }
             else if (inputHandler.downPressed) {
                 direction = "down";
-                worldY += speed;
+                y += speed;
             }
             else if (inputHandler.leftPressed) {
                 direction = "left";
-                worldX -= speed;
+                x -= speed;
             }
 
             else {
                 direction = "right";
-                worldX += speed;
+                x += speed;
             }
 
             spriteCounter++;
@@ -91,7 +83,7 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2) {
         BufferedImage image = sprites[getDirectionIndex()][spriteNumber];
-        g2.drawImage(image, screenX, screenY, gl.tileSize, gl.tileSize, null);
+        g2.drawImage(image, x, y, gl.tileSize, gl.tileSize, null);
     }
 
     private int getDirectionIndex() {
