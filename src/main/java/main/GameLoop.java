@@ -1,7 +1,6 @@
 package main;
 
 import entity.Player;
-import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +19,6 @@ public class GameLoop extends JPanel implements Runnable {
 
     int FPS = 60;
 
-    TileManager tileManager = new TileManager(this);
     InputHandler inputHandler = new InputHandler();
     Thread gameThread;
     Player player = new Player(this, inputHandler);
@@ -79,7 +77,6 @@ public class GameLoop extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        tileManager.draw(g2);
         player.draw(g2);
 
         g2.dispose();
