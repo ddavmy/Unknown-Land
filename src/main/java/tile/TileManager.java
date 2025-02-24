@@ -33,8 +33,22 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(tile[0].image, 0, 0, gl.tileSize, gl.tileSize, null);
-        g2.drawImage(tile[1].image, 0, 0, gl.tileSize, gl.tileSize, null);
-        g2.drawImage(tile[2].image, 64, 0, gl.tileSize, gl.tileSize, null);
+        int col = 0;
+        int row = 0;
+        int x = 0;
+        int y = 0;
+
+        while(col < gl.maxScreenCol && row < gl.maxScreenRow) {
+            g2.drawImage(tile[0].image, x, y, gl.tileSize, gl.tileSize, null);
+            col++;
+            x += gl.tileSize;
+
+            if (col == gl.maxScreenCol) {
+                col = 0;
+                x = 0;
+                row++;
+                y += gl.tileSize;
+            }
+        }
     }
 }
