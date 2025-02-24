@@ -32,11 +32,11 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = (gl.maxWorldCol / 2) * gl.tileSize - (gl.tileSize / 2);
-        worldY = (gl.maxWorldRow / 2) * gl.tileSize - (gl.tileSize / 2);
+        worldX = (gl.maxWorldCol / 2) * gl.tileSize;
+        worldY = (gl.maxWorldRow / 2) * gl.tileSize - (gl.tileSize / gl.scale);
 
         speed = 4;
-        direction = "up";
+        direction = "down";
     }
 
     public void loadPlayerImages() {
