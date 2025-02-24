@@ -54,27 +54,30 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (inputHandler.upPressed) {
-            direction = "up";
-            y -= speed;
-        }
-        else if (inputHandler.downPressed) {
-            direction = "down";
-            y += speed;
-        }
-        else if (inputHandler.leftPressed) {
-            direction = "left";
-            x -= speed;
-        }
-        else if (inputHandler.rightPressed) {
-            direction = "right";
-            x += speed;
-        }
+        if (inputHandler.upPressed  || inputHandler.downPressed || inputHandler.leftPressed || inputHandler.rightPressed) {
+            if (inputHandler.upPressed) {
+                direction = "up";
+                y -= speed;
+            }
+            else if (inputHandler.downPressed) {
+                direction = "down";
+                y += speed;
+            }
+            else if (inputHandler.leftPressed) {
+                direction = "left";
+                x -= speed;
+            }
 
-        spriteCounter++;
-        if (spriteCounter > 6) {
-            spriteNumber = (spriteNumber + 1) % sprites[getDirectionIndex()].length;
-            spriteCounter = 0;
+            else {
+                direction = "right";
+                x += speed;
+            }
+
+            spriteCounter++;
+            if (spriteCounter > 6) {
+                spriteNumber = (spriteNumber + 1) % sprites[getDirectionIndex()].length;
+                spriteCounter = 0;
+            }
         }
     }
 
