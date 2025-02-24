@@ -84,7 +84,12 @@ public class TileManager {
             int screenX = worldX - gl.player.worldX + gl.player.screenX;
             int screenY = worldY - gl.player.worldY + gl.player.screenY;
 
-            g2.drawImage(tile[tileNumber].image, screenX, screenY, gl.tileSize, gl.tileSize, null);
+            if (worldX + gl.tileSize> gl.player.worldX - gl.player.screenX &&
+                    worldX - gl.tileSize< gl.player.worldX + gl.player.screenX &&
+                    worldY + gl.tileSize> gl.player.worldY - gl.player.screenY &&
+                    worldY - gl.tileSize< gl.player.worldY + gl.player.screenY) {
+                g2.drawImage(tile[tileNumber].image, screenX, screenY, gl.tileSize, gl.tileSize, null);
+            }
             worldCol++;
 
             if (worldCol == gl.maxWorldCol) {
