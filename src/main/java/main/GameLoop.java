@@ -13,10 +13,10 @@ public class GameLoop extends JPanel implements Runnable {
     final int scale = 4;
 
     public final int tileSize = originalTileSize * scale; // 64x64 tile
-    public final int maxScreenCol = 20;
-    public final int maxScreenRow = 16;
-    public final int screenWidth = tileSize * maxScreenCol; // 1280 pixels
-    public final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
+    final int maxScreenCol = 20;
+    final int maxScreenRow = 16;
+    final int screenWidth = tileSize * maxScreenCol; // 1280 pixels
+    final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
 
     int FPS = 60;
 
