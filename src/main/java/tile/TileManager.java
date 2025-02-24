@@ -22,23 +22,24 @@ public class TileManager {
         getTileImage();
         loadMap("/maps/map01.txt");
     }
-//    }
 
     public void getTileImage() {
-        String[] tilePaths = {
-                "/tiles/dirt.png",
-                "/tiles/stone.png",
-                "/tiles/water.png",
-                "/tiles/grass.png",
-                "/tiles/stonePath.png",
-        };
-
         try {
-            for (int i = 0; i < tilePaths.length; i++) {
-                tile[i] = new Tile();
-                tile[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(tilePaths[i])));
-            }
-        } catch (IOException | NullPointerException e) {
+            tile[0] = new Tile();
+            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/dirt.png")));
+
+            tile[1] = new Tile();
+            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/grass.png")));
+
+            tile[2] = new Tile();
+            tile[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/stone.png")));
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/stonePath.png")));
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/water.png")));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
