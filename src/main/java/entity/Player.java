@@ -81,6 +81,8 @@ public class Player extends Entity {
             else {
                 direction = "right";
                 worldX += speed;
+            collided = false;
+            gl.collisionChecker.checkTile(this);
             }
 
             spriteCounter++;

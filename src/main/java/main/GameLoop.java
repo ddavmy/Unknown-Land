@@ -29,6 +29,7 @@ public class GameLoop extends JPanel implements Runnable {
     TileManager tileManager = new TileManager(this);
     InputHandler inputHandler = new InputHandler();
     Thread gameThread;
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
     public Player player = new Player(this, inputHandler);
 
     public GameLoop() {
