@@ -8,7 +8,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TileManager {
     GameLoop gl;
@@ -24,28 +27,26 @@ public class TileManager {
         getTileImage();
         loadMap("/maps/world01.txt");
     }
-//    }
 
     public void getTileImage() {
-        String[] tilePaths = {
-                "/tiles/dirt.png",
-                "/tiles/stone.png",
-                "/tiles/water.png",
-                "/tiles/grass.png",
-                "/tiles/tree.png",
-                "/tiles/stonePath.png",
-        };
+        Map<String, Boolean> tileData = new LinkedHashMap<>();
+        tileData.put("dirt", false);
+        tileData.put("stone", true);
+        tileData.put("water", true);
+        tileData.put("grass", false);
+        tileData.put("tree", true);
+        tileData.put("stonePath", false);
 
-        try {
-            for (int i = 0; i < tilePaths.length; i++) {
-                tile[i] = new Tile();
-                tile[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(tilePaths[i])));
-                if (i == 1 || i == 2 || i == 4) {
-                    tile[i].collision = true;
-                }
+        int i = 0;
+        for (Map.Entry<String, Boolean> entry : tileData.entrySet()) {
+            tile[i] = new Tile();
+            try {
+                tile[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + entry.getKey() + ".png")));
+                tile[i].collision = entry.getValue();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+            i++;
         }
     }
 
@@ -87,10 +88,10 @@ public class TileManager {
             int screenX = worldX - gl.player.worldX + gl.player.screenX;
             int screenY = worldY - gl.player.worldY + gl.player.screenY;
 
-            if (worldX + gl.tileSize> gl.player.worldX - gl.player.screenX &&
-                    worldX - gl.tileSize< gl.player.worldX + gl.player.screenX &&
-                    worldY + gl.tileSize> gl.player.worldY - gl.player.screenY &&
-                    worldY - gl.tileSize< gl.player.worldY + gl.player.screenY) {
+            if (worldX + gl.tileSize > gl.player.worldX - gl.player.screenX &&
+                    worldX - gl.tileSize < gl.player.worldX + gl.player.screenX &&
+                    worldY + gl.tileSize > gl.player.worldY - gl.player.screenY &&
+                    worldY - gl.tileSize < gl.player.worldY + gl.player.screenY) {
                 g2.drawImage(tile[tileNumber].image, screenX, screenY, gl.tileSize, gl.tileSize, null);
             }
             worldCol++;
