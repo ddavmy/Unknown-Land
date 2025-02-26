@@ -12,8 +12,8 @@ import java.util.Objects;
 
 public class TileManager {
     GameLoop gl;
-    Tile[] tile;
-    int mapTileNumber[][];
+    public Tile[] tile;
+    public int[][] mapTileNumber;
 
     public TileManager(GameLoop gl) {
         this.gl = gl;

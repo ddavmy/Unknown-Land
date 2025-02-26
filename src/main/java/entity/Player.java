@@ -27,7 +27,7 @@ public class Player extends Entity {
         screenX = gl.screenWidth / 2 - gl.tileSize / 2;
         screenY = gl.screenHeight / 2 - gl.tileSize / 2;
 
-        bounds = new Rectangle(24, 24, 40, 40);
+        bounds = new Rectangle(16, 36, 36, 24);
 
         setDefaultValues();
         loadPlayerImages();
@@ -35,7 +35,7 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         worldX = (int) ((gl.maxWorldCol / 2.31) * gl.tileSize);
-        worldY = (int) ((gl.maxWorldRow / 4.32) * gl.tileSize - ((double) gl.tileSize / gl.scale));
+        worldY = (int) ((gl.maxWorldRow / 4.3) * gl.tileSize - ((double) gl.tileSize / gl.scale));
 
         speed = 4;
         direction = "left";
@@ -54,7 +54,7 @@ public class Player extends Entity {
         images = new BufferedImage[frameCount];
 
         for (int i = 0; i < frameCount; i++) {
-            try  {
+            try {
                 images[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(pathPrefix + (i + 1) + ".png")));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -64,25 +64,29 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (inputHandler.upPressed  || inputHandler.downPressed || inputHandler.leftPressed || inputHandler.rightPressed) {
+        if (inputHandler.upPressed || inputHandler.downPressed || inputHandler.leftPressed || inputHandler.rightPressed) {
             if (inputHandler.upPressed) {
                 direction = "up";
-                worldY -= speed;
-            }
-            else if (inputHandler.downPressed) {
+            } else if (inputHandler.downPressed) {
                 direction = "down";
-                worldY += speed;
-            }
-            else if (inputHandler.leftPressed) {
+            } else if (inputHandler.leftPressed) {
                 direction = "left";
-                worldX -= speed;
+            } else {
+                direction = "right";
             }
 
-            else {
-                direction = "right";
-                worldX += speed;
+            // CHECK TILE COLLISION
             collided = false;
             gl.collisionChecker.checkTile(this);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if (!collided) {
+                switch (direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
             }
 
             spriteCounter++;
