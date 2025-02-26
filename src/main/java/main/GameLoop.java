@@ -19,8 +19,8 @@ public class GameLoop extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
 
     // WORLD SETTINGS
-    public final int maxWorldCol = 51;
-    public final int maxWorldRow = 51;
+    public final int maxWorldCol = 60;
+    public final int maxWorldRow = 57;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
