@@ -27,6 +27,8 @@ public class Player extends Entity {
         screenX = gl.screenWidth / 2 - gl.tileSize / 2;
         screenY = gl.screenHeight / 2 - gl.tileSize / 2;
 
+        bounds = new Rectangle(24, 24, 40, 40);
+
         setDefaultValues();
         loadPlayerImages();
     }

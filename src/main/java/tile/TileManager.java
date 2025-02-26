@@ -40,6 +40,9 @@ public class TileManager {
             for (int i = 0; i < tilePaths.length; i++) {
                 tile[i] = new Tile();
                 tile[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(tilePaths[i])));
+                if (i == 1 || i == 2 || i == 4) {
+                    tile[i].collision = true;
+                }
             }
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
