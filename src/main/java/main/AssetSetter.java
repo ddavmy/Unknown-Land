@@ -1,6 +1,7 @@
 package main;
 
 import object.OBJ_Book;
+import object.OBJ_Chest;
 import object.OBJ_Key;
 import object.OBJ_Stone;
 
@@ -24,5 +25,10 @@ public class AssetSetter {
         gl.object[2].worldX = 32 * gl.tileSize;
         gl.object[2].worldY = 27 * gl.tileSize;
         gl.object[2].collision = true;
+
+        gl.object[3] = new OBJ_Chest();
+        gl.object[3].worldX = 43 * gl.tileSize;
+        gl.object[3].worldY = 36 * gl.tileSize;
+        gl.object[3].collision = true;
     }
 }

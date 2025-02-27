@@ -77,25 +77,45 @@ public class CollisionChecker {
                     case "up":
                         entity.bounds.y -= entity.speed;
                         if (entity.bounds.intersects(gl.object[i].bounds)) {
-                            System.out.println("UP Collision Detected");
+                            if (gl.object[i].collision) {
+                                entity.collision = true;
+                            }
+                            if (player) {
+                                index = i;
+                            }
                         }
                         break;
                     case "down":
                         entity.bounds.y += entity.speed;
                         if (entity.bounds.intersects(gl.object[i].bounds)) {
-                            System.out.println("DOWN Collision Detected");
+                            if (gl.object[i].collision) {
+                                entity.collision = true;
+                            }
+                            if (player) {
+                                index = i;
+                            }
                         }
                         break;
                     case "left":
                         entity.bounds.x -= entity.speed;
                         if (entity.bounds.intersects(gl.object[i].bounds)) {
-                            System.out.println("LEFT Collision Detected");
+                            if (gl.object[i].collision) {
+                                entity.collision = true;
+                            }
+                            if (player) {
+                                index = i;
+                            }
                         }
                         break;
                     case "right":
                         entity.bounds.x += entity.speed;
                         if (entity.bounds.intersects(gl.object[i].bounds)) {
-                            System.out.println("RIGHT Collision Detected");
+                            if (gl.object[i].collision) {
+                                entity.collision = true;
+                            }
+                            if (player) {
+                                index = i;
+                            }
                         }
                         break;
                 }

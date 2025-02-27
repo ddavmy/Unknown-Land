@@ -19,6 +19,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0, hasBook = 0;
 
     public Player(GameLoop gl, InputHandler inputHandler) {
         this.gl = gl;
@@ -87,6 +88,7 @@ public class Player extends Entity {
 
             // CHECK OBJECT COLLISION
             int objectIndex = gl.collisionChecker.checkObject(this, true);
+            pickUpObject(objectIndex);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collision) {
@@ -102,6 +104,30 @@ public class Player extends Entity {
             if (spriteCounter > 6) {
                 spriteNumber = (spriteNumber + 1) % sprites[getDirectionIndex()].length;
                 spriteCounter = 0;
+            }
+        }
+    }
+
+    public void pickUpObject(int i) {
+        if (i != 999) {
+            String objectName = gl.object[i].name;
+            switch (objectName) {
+                case "Key":
+                    hasKey++;
+                    gl.object[i] = null;
+                    System.out.println("Key: " + hasKey);
+                    break;
+                case "Book":
+                    hasBook++;
+                    gl.object[i] = null;
+                    break;
+                case "Chest":
+                    if (hasKey > 0) {
+                        gl.object[i] = null;
+                        hasKey--;
+                    }
+                    System.out.println("Key: " + hasKey);
+                    break;
             }
         }
     }
