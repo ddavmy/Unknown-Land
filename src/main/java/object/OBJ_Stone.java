@@ -13,5 +13,6 @@ public class OBJ_Stone extends SuperObject {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        collision = true;
     }
 }

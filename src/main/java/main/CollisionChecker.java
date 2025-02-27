@@ -62,4 +62,49 @@ public class CollisionChecker {
                 break;
         }
     }
+
+    public int checkObject(Entity entity, boolean player) {
+        int index = 999;
+
+        for (int i = 0; i < gl.object.length; i++) {
+            if (gl.object[i] != null) {
+                entity.bounds.x = entity.worldX + entity.bounds.x;
+                entity.bounds.y = entity.worldY + entity.bounds.y;
+                gl.object[i].bounds.x = gl.object[i].worldX + gl.object[i].bounds.x;
+                gl.object[i].bounds.y = gl.object[i].worldY + gl.object[i].bounds.y;
+
+                switch (entity.direction) {
+                    case "up":
+                        entity.bounds.y -= entity.speed;
+                        if (entity.bounds.intersects(gl.object[i].bounds)) {
+                            System.out.println("UP Collision Detected");
+                        }
+                        break;
+                    case "down":
+                        entity.bounds.y += entity.speed;
+                        if (entity.bounds.intersects(gl.object[i].bounds)) {
+                            System.out.println("DOWN Collision Detected");
+                        }
+                        break;
+                    case "left":
+                        entity.bounds.x -= entity.speed;
+                        if (entity.bounds.intersects(gl.object[i].bounds)) {
+                            System.out.println("LEFT Collision Detected");
+                        }
+                        break;
+                    case "right":
+                        entity.bounds.x += entity.speed;
+                        if (entity.bounds.intersects(gl.object[i].bounds)) {
+                            System.out.println("RIGHT Collision Detected");
+                        }
+                        break;
+                }
+                entity.bounds.x = entity.boundsDefaultX;
+                entity.bounds.y = entity.boundsDefaultY;
+                gl.object[i].bounds.x = gl.object[i].boundsDefaultX;
+                gl.object[i].bounds.y = gl.object[i].boundsDefaultY;
+            }
+        }
+        return index;
+    }
 }

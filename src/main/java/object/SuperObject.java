@@ -11,6 +11,9 @@ public class SuperObject {
     public String name;
     public boolean collision = false;
     public int worldX, worldY;
+    public Rectangle bounds = new Rectangle(0, 0, 64, 64);
+    public int boundsDefaultX = 0;
+    public int boundsDefaultY = 0;
 
     public void draw(Graphics2D g2, GameLoop gl) {
         int screenX = worldX - gl.player.worldX + gl.player.screenX;

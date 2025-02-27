@@ -27,7 +27,13 @@ public class Player extends Entity {
         screenX = gl.screenWidth / 2 - gl.tileSize / 2;
         screenY = gl.screenHeight / 2 - gl.tileSize / 2;
 
-        bounds = new Rectangle(16, 36, 36, 24);
+        bounds = new Rectangle();
+        bounds.x = 16;
+        bounds.y = 36;
+        boundsDefaultX = bounds.x;
+        boundsDefaultY = bounds.y;
+        bounds.width = 32;
+        bounds.height = 24;
 
         setDefaultValues();
         loadPlayerImages();
@@ -78,6 +84,9 @@ public class Player extends Entity {
             // CHECK TILE COLLISION
             collision = false;
             gl.collisionChecker.checkTile(this);
+
+            // CHECK OBJECT COLLISION
+            int objectIndex = gl.collisionChecker.checkObject(this, true);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collision) {
