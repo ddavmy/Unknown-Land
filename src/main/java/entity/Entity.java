@@ -9,5 +9,5 @@ public class Entity {
     public int spriteCounter = 0;
     public int spriteNumber = 1;
     public Rectangle bounds;
-    public boolean collided = false;
+    public boolean collision = false;
 }

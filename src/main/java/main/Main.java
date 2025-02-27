@@ -18,6 +18,7 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        gameLoop.setupGame();
         gameLoop.startGameThread();
     }
 }

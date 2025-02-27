@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TileManager {
     GameLoop gl;
@@ -29,6 +28,7 @@ public class TileManager {
     }
 
     public void getTileImage() {
+        // NAME OF TILE AND BOOLEAN FOR IT'S COLLISION
         Map<String, Boolean> tileData = new LinkedHashMap<>();
         tileData.put("dirt", false);
         tileData.put("stone", true);

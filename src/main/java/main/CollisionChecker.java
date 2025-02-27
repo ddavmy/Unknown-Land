@@ -30,7 +30,7 @@ public class CollisionChecker {
                 tileNumber2 = gl.tileManager.mapTileNumber[entityRightCol][entityTopRow];
 
                 if (gl.tileManager.tile[tileNumber1].collision || gl.tileManager.tile[tileNumber2].collision) {
-                    entity.collided = true;
+                    entity.collision = true;
                 }
                 break;
             case "down":
@@ -39,7 +39,7 @@ public class CollisionChecker {
                 tileNumber2 = gl.tileManager.mapTileNumber[entityRightCol][entityBottomRow];
 
                 if (gl.tileManager.tile[tileNumber1].collision || gl.tileManager.tile[tileNumber2].collision) {
-                    entity.collided = true;
+                    entity.collision = true;
                 }
                 break;
             case "left":
@@ -48,7 +48,7 @@ public class CollisionChecker {
                 tileNumber2 = gl.tileManager.mapTileNumber[entityLeftCol][entityBottomRow];
 
                 if (gl.tileManager.tile[tileNumber1].collision || gl.tileManager.tile[tileNumber2].collision) {
-                    entity.collided = true;
+                    entity.collision = true;
                 }
                 break;
             case "right":
@@ -57,7 +57,7 @@ public class CollisionChecker {
                 tileNumber2 = gl.tileManager.mapTileNumber[entityRightCol][entityBottomRow];
 
                 if (gl.tileManager.tile[tileNumber1].collision || gl.tileManager.tile[tileNumber2].collision) {
-                    entity.collided = true;
+                    entity.collision = true;
                 }
                 break;
         }
