@@ -24,6 +24,8 @@ public class Player extends Entity {
         this.gl = gl;
         this.inputHandler = inputHandler;
 
+        screenX = gl.screenWidth / 2 - gl.tileSize / 2;
+        screenY = gl.screenHeight / 2 - gl.tileSize / 2;
 
         bounds = new Rectangle(16, 36, 36, 24);
 
@@ -80,10 +82,10 @@ public class Player extends Entity {
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collision) {
                 switch (direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
                 }
             }
 
@@ -97,6 +99,7 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2) {
         BufferedImage image = sprites[getDirectionIndex()][spriteNumber];
+        g2.drawImage(image, screenX, screenY, gl.tileSize, gl.tileSize, null);
     }
 
     private int getDirectionIndex() {
