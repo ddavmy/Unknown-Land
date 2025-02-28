@@ -1,9 +1,6 @@
 package main;
 
-import object.OBJ_Book;
-import object.OBJ_Chest;
-import object.OBJ_Key;
-import object.OBJ_Stone;
+import object.*;
 
 public class AssetSetter {
     GameLoop gl;
@@ -30,5 +27,9 @@ public class AssetSetter {
         gl.object[3].worldX = 43 * gl.tileSize;
         gl.object[3].worldY = 36 * gl.tileSize;
         gl.object[3].collision = true;
+
+        gl.object[4] = new OBJ_Stairs();
+        gl.object[4].worldX = 38 * gl.tileSize;
+        gl.object[4].worldY = 34 * gl.tileSize;
     }
 }
