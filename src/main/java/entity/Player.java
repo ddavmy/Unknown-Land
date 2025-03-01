@@ -1,6 +1,7 @@
 package entity;
 
 import main.GameLoop;
+import main.DrawingUtils;
 import main.InputHandler;
 import sprite.SheetManager;
 import sprite.SpriteData;
@@ -16,10 +17,10 @@ public class Player extends Entity {
     GameLoop gl;
     InputHandler inputHandler;
     SheetManager sheetManager;
-    SpriteData[] spriteData;
+    SpriteData[][] spriteData;
     BufferedImage[][] frames;
 
-    String[] directions = {"up", "down", "left"};
+    String[] directions = {"up", "down", "left", "right"};
 
     public final int screenX;
     public final int screenY;
@@ -58,14 +59,17 @@ public class Player extends Entity {
         try {
             BufferedImage spriteSheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/entity/player/knight.png")));
 
+            this.spriteData = new SpriteData[directions.length][];
+
             for (int i = 0; i < directions.length; i++) {
-                spriteData = sheetManager.SpriteLoader("/sprites.json", "player1", "walk", directions[i]);
+                spriteData[i] = sheetManager.SpriteLoader("/sprites.json", "player1", "walk", directions[i]);
 
-                if (spriteData != null) {
-                    frames[i] = new BufferedImage[spriteData.length];
+                if (spriteData[i] != null) {
+                    frames[i] = new BufferedImage[spriteData[i].length];
 
-                    for (int j = 0; j < spriteData.length; j++) {
-                        frames[i][j] = sheetManager.grabImage(spriteSheet, spriteData[j].x, spriteData[j].y, spriteData[j].w, spriteData[j].h);
+                    for (int j = 0; j < spriteData[i].length; j++) {
+                        frames[i][j] = sheetManager.grabImage(spriteSheet, spriteData[i][j].x, spriteData[i][j].y, spriteData[i][j].w, spriteData[i][j].h
+                        );
                     }
                 }
             }
@@ -138,7 +142,9 @@ public class Player extends Entity {
 
     public void draw(Graphics2D g2) {
         BufferedImage image = frames[getDirectionIndex()][spriteNumber];
-        g2.drawImage(image, screenX, screenY, gl.tileSize, gl.tileSize, null);
+        boolean isFlipped = spriteData[getDirectionIndex()][spriteNumber].flipped;
+
+        DrawingUtils.drawFlippedSprite(g2, image, screenX, screenY, gl.tileSize, gl.tileSize, isFlipped);
     }
 
     private int getDirectionIndex() {
