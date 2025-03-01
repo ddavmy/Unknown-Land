@@ -2,6 +2,8 @@ package entity;
 
 import main.GameLoop;
 import main.InputHandler;
+import sprite.SheetManager;
+import sprite.SpriteData;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,9 +15,11 @@ public class Player extends Entity {
 
     GameLoop gl;
     InputHandler inputHandler;
-    BufferedImage[][] sprites = new BufferedImage[4][];
+    SheetManager sheetManager;
+    SpriteData[] spriteData;
+    BufferedImage[][] frames;
 
-    String[] directions = {"up", "down", "left", "right"};
+    String[] directions = {"up", "down", "left"};
 
     public final int screenX;
     public final int screenY;
@@ -24,6 +28,8 @@ public class Player extends Entity {
     public Player(GameLoop gl, InputHandler inputHandler) {
         this.gl = gl;
         this.inputHandler = inputHandler;
+        this.sheetManager = new SheetManager();
+        this.frames = new BufferedImage[directions.length][];
 
         screenX = gl.screenWidth / 2 - gl.tileSize / 2;
         screenY = gl.screenHeight / 2 - gl.tileSize / 2;
@@ -49,25 +55,23 @@ public class Player extends Entity {
     }
 
     public void loadPlayerImages() {
-        for (int i = 0; i < directions.length; i++) {
-            String dir = directions[i];
-            sprites[i] = loadDirectionSprites("/player/walk/" + dir + "_");
-        }
-    }
+        try {
+            BufferedImage spriteSheet = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/entity/player/knight.png")));
 
-    private BufferedImage[] loadDirectionSprites(String pathPrefix) {
-        BufferedImage[] images;
-        int frameCount = 6;
-        images = new BufferedImage[frameCount];
+            for (int i = 0; i < directions.length; i++) {
+                spriteData = sheetManager.SpriteLoader("/sprites.json", "player1", "walk", directions[i]);
 
-        for (int i = 0; i < frameCount; i++) {
-            try {
-                images[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(pathPrefix + (i + 1) + ".png")));
-            } catch (IOException e) {
-                e.printStackTrace();
+                if (spriteData != null) {
+                    frames[i] = new BufferedImage[spriteData.length];
+
+                    for (int j = 0; j < spriteData.length; j++) {
+                        frames[i][j] = sheetManager.grabImage(spriteSheet, spriteData[j].x, spriteData[j].y, spriteData[j].w, spriteData[j].h);
+                    }
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return images;
     }
 
     public void update() {
@@ -102,7 +106,7 @@ public class Player extends Entity {
 
             spriteCounter++;
             if (spriteCounter > 6) {
-                spriteNumber = (spriteNumber + 1) % sprites[getDirectionIndex()].length;
+                spriteNumber = (spriteNumber + 1) % frames[getDirectionIndex()].length;
                 spriteCounter = 0;
             }
         }
@@ -133,7 +137,7 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = sprites[getDirectionIndex()][spriteNumber];
+        BufferedImage image = frames[getDirectionIndex()][spriteNumber];
         g2.drawImage(image, screenX, screenY, gl.tileSize, gl.tileSize, null);
     }
 
