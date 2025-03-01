@@ -39,6 +39,12 @@ public class GameLoop extends JPanel implements Runnable {
     public Player player = new Player(this, inputHandler);
     public SuperObject[] object = new SuperObject[16];
 
+    // SOUND
+    private static final int MUSIC_BACKGROUND = 0;
+    private static final int SOUND_CHEST = 1;
+    private static final int SOUND_FOOTSTEPS = 2;
+    private static final int SOUND_PICKUP = 3;
+
     public GameLoop() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -117,16 +123,32 @@ public class GameLoop extends JPanel implements Runnable {
 
     public void playMusic(int index, float volume) {
         music.setFile(index, volume);
-        music.play();
-        music.loop();
+        music.play(index);
+        music.loop(index);
     }
 
-    public void stopMusic(int index) {
-        music.stop();
+    public void stopMusic() {
+        music.stop(MUSIC_BACKGROUND);
     }
 
     public void playSoundEffect(int index) {
         soundEffect.setFile(index, 1);
-        soundEffect.play();
+        soundEffect.play(index);
+    }
+
+    public boolean isFootstepsPlaying() {
+        return soundEffect.isPlaying(SOUND_FOOTSTEPS);
+    }
+
+    public void startFootsteps() {
+        if (!isFootstepsPlaying()) {
+            playSoundEffect(SOUND_FOOTSTEPS);
+        }
+    }
+
+    public void stopFootsteps() {
+        if (isFootstepsPlaying()) {
+            soundEffect.stop(SOUND_FOOTSTEPS);
+        }
     }
 }

@@ -5,9 +5,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.net.URL;
+import java.util.HashMap;
 
 public class Sound {
-    Clip clip;
+    private HashMap<Integer, Clip> activeClips = new HashMap<>();
     URL[] soundURL = new URL[30];
 
     public Sound() {
@@ -20,24 +21,35 @@ public class Sound {
     public void setFile(int index, float volume) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL[index]);
-            clip = AudioSystem.getClip();
+            Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(volume);
+            activeClips.put(index, clip);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void play() {
-        clip.start();
+    public void play(int index) {
+        if (activeClips.containsKey(index)) {
+            activeClips.get(index).start();
+        }
     }
 
-    public void loop() {
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    public void loop(int index) {
+        if (activeClips.containsKey(index)) {
+            activeClips.get(index).loop(Clip.LOOP_CONTINUOUSLY);
+        }
     }
 
-    public void stop() {
-        clip.stop();
+    public void stop(int index) {
+        if (activeClips.containsKey(index)) {
+            activeClips.get(index).stop();
+        }
+    }
+
+    public boolean isPlaying(int index) {
+        return activeClips.containsKey(index) && activeClips.get(index).isActive();
     }
 }

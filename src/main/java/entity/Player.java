@@ -51,7 +51,7 @@ public class Player extends Entity {
         worldX = (int) ((gl.maxWorldCol / 2.31) * gl.tileSize);
         worldY = (int) ((gl.maxWorldRow / 4.3) * gl.tileSize - ((double) gl.tileSize / gl.scale));
 
-        speed = 4;
+        speed = 8;
         direction = "left";
     }
 
@@ -100,6 +100,10 @@ public class Player extends Entity {
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (!collision) {
+                if (!gl.isFootstepsPlaying()) {
+                    gl.startFootsteps();
+                }
+
                 switch (direction) {
                     case "up" -> worldY -= speed;
                     case "down" -> worldY += speed;
@@ -113,6 +117,8 @@ public class Player extends Entity {
                 spriteNumber = (spriteNumber + 1) % frames[getDirectionIndex()].length;
                 spriteCounter = 0;
             }
+        } else {
+            gl.stopFootsteps();
         }
     }
 
