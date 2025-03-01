@@ -51,7 +51,7 @@ public class Player extends Entity {
         worldX = (int) ((gl.maxWorldCol / 2.31) * gl.tileSize);
         worldY = (int) ((gl.maxWorldRow / 4.3) * gl.tileSize - ((double) gl.tileSize / gl.scale));
 
-        speed = 8;
+        speed = 4;
         direction = "left";
     }
 
