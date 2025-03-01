@@ -27,9 +27,5 @@ public class AssetSetter {
         gl.object[3].worldX = 43 * gl.tileSize;
         gl.object[3].worldY = 36 * gl.tileSize;
         gl.object[3].collision = true;
-
-        gl.object[4] = new OBJ_Stairs();
-        gl.object[4].worldX = 38 * gl.tileSize;
-        gl.object[4].worldY = 34 * gl.tileSize;
     }
 }
