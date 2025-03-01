@@ -121,16 +121,19 @@ public class Player extends Entity {
             String objectName = gl.object[i].name;
             switch (objectName) {
                 case "Key":
+                    gl.playSoundEffect(3);
                     hasKey++;
                     gl.object[i] = null;
                     System.out.println("Key: " + hasKey);
                     break;
                 case "Book":
+                    gl.playSoundEffect(3);
                     hasBook++;
                     gl.object[i] = null;
                     break;
                 case "Chest":
                     if (hasKey > 0) {
+                        gl.playSoundEffect(1);
                         gl.object[i] = null;
                         hasKey--;
                     }

@@ -29,7 +29,8 @@ public class GameLoop extends JPanel implements Runnable {
     // SYSTEM
     TileManager tileManager = new TileManager(this);
     InputHandler inputHandler = new InputHandler();
-    Sound sound = new Sound();
+    Sound music = new Sound();
+    Sound soundEffect = new Sound();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     Thread gameThread;
@@ -48,7 +49,8 @@ public class GameLoop extends JPanel implements Runnable {
 
     public void setupGame() {
         assetSetter.setObject();
-        playMusic(0);
+        playMusic(0, -7.0f);
+
     }
 
     public void startGameThread() {
@@ -113,18 +115,18 @@ public class GameLoop extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void playMusic(int index) {
-        sound.setFile(index);
-        sound.play();
-        sound.loop();
+    public void playMusic(int index, float volume) {
+        music.setFile(index, volume);
+        music.play();
+        music.loop();
     }
 
     public void stopMusic(int index) {
-        sound.stop();
+        music.stop();
     }
 
     public void playSoundEffect(int index) {
-        sound.setFile(index);
-        sound.play();
+        soundEffect.setFile(index, 1);
+        soundEffect.play();
     }
 }
