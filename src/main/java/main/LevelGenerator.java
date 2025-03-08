@@ -1,12 +1,11 @@
 package main;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LevelGenerator {
-    public int width, height;
-    Integer[][] map;
-    private Map<String, Integer> tile = new HashMap<>();
+    public static int width, height, roomQuantity;
+    private static Integer[][] map;
+    private final Map<String, Integer> tile = new HashMap<>();
 
     enum Tiles {
         STONE,
@@ -14,8 +13,8 @@ public class LevelGenerator {
     }
 
     public LevelGenerator() {
-        this.width = 75;
-        this.height = 75;
+        width = 40;
+        height = 16;
         map = new Integer[width][height];
         getTiles();
         fillMap();
@@ -27,14 +26,27 @@ public class LevelGenerator {
     }
 
     private void fillMap() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                map[i][j] = tile.get(Tiles.STONE.name());
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                map[j][i] = tile.get(Tiles.STONE.name());
             }
         }
     }
 
     public static void main(String[] args) {
         new LevelGenerator();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (map[j][i] == 1) {
+                    System.out.print("■");
+                } else if (map[j][i] == 5) {
+                    System.out.print("□");
+                } else {
+                    System.out.println("☒");
+                }
+            }
+            System.out.println();
+        }
     }
 }
