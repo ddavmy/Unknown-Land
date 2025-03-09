@@ -48,8 +48,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = (int) ((gl.maxWorldCol / 2.31) * gl.tileSize);
-        worldY = (int) ((gl.maxWorldRow / 4.3) * gl.tileSize - ((double) gl.tileSize / gl.scale));
+        worldX = gl.playerX;
+        worldY = gl.playerY;
 
         speed = 8;
         direction = "left";

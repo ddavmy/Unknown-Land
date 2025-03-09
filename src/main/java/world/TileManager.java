@@ -24,7 +24,6 @@ public class TileManager {
         mapTileNumber = new int[gl.maxWorldCol][gl.maxWorldRow];
 
         getTileImage();
-        loadMap("/maps/world01.txt");
     }
 
     public void getTileImage() {
@@ -47,6 +46,16 @@ public class TileManager {
                 e.printStackTrace();
             }
             i++;
+        }
+    }
+
+    public void loadMapFromData(int[][] mapData) {
+        for (int row = 0; row < gl.maxWorldRow; row++) {
+            for (int col = 0; col < gl.maxWorldCol; col++) {
+                if (col < mapData[0].length && row < mapData.length) {
+                    mapTileNumber[col][row] = mapData[row][col];
+                }
+            }
         }
     }
 

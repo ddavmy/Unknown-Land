@@ -10,6 +10,13 @@ import java.awt.*;
 
 public class GameLoop extends JPanel implements Runnable {
 
+    private enum GameState {
+        LOADING,
+        RUNNING
+    }
+
+    private GameState gameState = GameState.LOADING;
+
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
     public final int scale = 4;
@@ -21,15 +28,15 @@ public class GameLoop extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow; // 1024 pixels
 
     // WORLD SETTINGS
-    public final int maxWorldCol = 80;
-    public final int maxWorldRow = 80;
-    final int maxRoomQuantity = 20;
+    public final int maxWorldCol = 20;
+    public final int maxWorldRow = 20;
+    final int maxRoomQuantity = 5;
 
     // FPS
     int FPS = 60;
 
     // SYSTEM
-    LevelGenerator levelGenerator = new LevelGenerator(maxWorldCol, maxWorldRow, maxRoomQuantity);
+    LevelGenerator levelGenerator = new LevelGenerator(this, maxWorldCol, maxWorldRow, maxRoomQuantity);
     TileManager tileManager = new TileManager(this);
     InputHandler inputHandler = new InputHandler();
     Sound music = new Sound();
@@ -39,7 +46,8 @@ public class GameLoop extends JPanel implements Runnable {
     Thread gameThread;
 
     // ENTITY AND OBJECT
-    public Player player = new Player(this, inputHandler);
+    public int playerX, playerY;
+    public Player player;
     public SuperObject[] object = new SuperObject[16];
 
     // SOUND
@@ -57,7 +65,20 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void setupGame() {
-        assetSetter.setObject();
+        gameState = GameState.LOADING;
+
+        new Thread(() -> {
+            boolean mapGenerated = levelGenerator.generate();
+            if (mapGenerated) {
+                tileManager.loadMapFromData(levelGenerator.getGeneratedMap());
+                player = new Player(GameLoop.this, inputHandler);
+                assetSetter.setObject();
+                gameState = GameState.RUNNING;
+            } else {
+                System.out.println("Map generation failed");
+            }
+        }).start();
+
         playMusic(0, -7.0f);
     }
 
@@ -68,7 +89,6 @@ public class GameLoop extends JPanel implements Runnable {
 
     @Override
     public void run() {
-
         double drawInterval = 1000000000.0 / FPS; // 0.01666 seconds
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -99,26 +119,37 @@ public class GameLoop extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        if (gameState == GameState.RUNNING) {
+            player.update();
+        }
     }
 
     public void paint(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
 
-        // TILE
-        tileManager.draw(g2);
+        if (gameState == GameState.LOADING) {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0, 0, screenWidth, screenHeight);
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 50));
+            String text = "Generating Map...";
+            int textWidth = g2.getFontMetrics().stringWidth(text);
+            g2.drawString(text, screenWidth/2 - textWidth/2, screenHeight/2);
+        } else {
+            // TILE
+            tileManager.draw(g2);
 
-        // OBJECT
-        for (int i = 0; i < object.length; i++) {
-            if (object[i] != null) {
-                object[i].draw(g2, this);
+            // OBJECT
+            for (int i = 0; i < object.length; i++) {
+                if (object[i] != null) {
+                    object[i].draw(g2, this);
+                }
             }
-        }
 
-        // PLAYER
-        player.draw(g2);
+            // PLAYER
+            player.draw(g2);
+        }
 
         g2.dispose();
     }

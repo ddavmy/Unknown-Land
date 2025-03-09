@@ -1,5 +1,7 @@
 package world;
 
+import main.GameLoop;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,7 +12,7 @@ public class LevelGenerator {
     private final int[][] map;
     private final Random random;
     private final List<RoomHelper> rooms;
-    public int playerX, playerY;
+    GameLoop gl;
 
     enum TileType {
         DIRT(0),
@@ -29,22 +31,27 @@ public class LevelGenerator {
         }
     }
 
-    public LevelGenerator(int width, int height, int roomQuantity) {
+    public LevelGenerator(GameLoop gl, int width, int height, int roomQuantity) {
         this.random = new Random();
         this.width = width;
         this.height = height;
         this.maxRoomQuantity = roomQuantity;
         this.map = new int[height][width];
         this.rooms = new ArrayList<>();
-        generate();
+        this.gl = gl;
     }
 
-    public void generate() {
+    public int[][] getGeneratedMap() {
+        return this.map;
+    }
+
+    public boolean generate() {
         fillMap();
         generateRooms();
         placeRoomsOnMap();
         placeBossAndPlayer();
         writeToFile();
+        return true;
     }
 
     private void fillMap() {
@@ -56,20 +63,23 @@ public class LevelGenerator {
     }
 
     private void generateRooms() {
-        int maxAttempts = maxRoomQuantity * 3;
+        int maxAttempts = maxRoomQuantity * 5;
         int attempt = 0;
 
         while (attempt < maxAttempts && rooms.size() < maxRoomQuantity) {
             int roomType = random.nextInt(2);
             RoomHelper newRoom = null;
 
-            switch (roomType) {
-                case 0 -> newRoom = generateCircularRoom();
-                case 1 -> newRoom = generateRectangularRoom();
+            if (!rooms.isEmpty()) {
+                switch (roomType) {
+                    case 0 -> newRoom = generateCircularRoom();
+                    case 1 -> newRoom = generateRectangularRoom();
+                }
+            } else {
+                newRoom = generateCircularRoom();
             }
 
             if (!newRoom.overlapsAnyRoom(rooms, newRoom)) {
-
                 switch (roomType) {
                     case 0 -> System.out.println("Generating circular room");
                     case 1 -> System.out.println("Generating rectangular room");
@@ -93,7 +103,12 @@ public class LevelGenerator {
     }
 
     private RoomHelper generateCircularRoom() {
-        int radius = random.nextInt(4) + 4;
+        int radius;
+        if (rooms.isEmpty()) {
+            radius = random.nextInt(2) + 3;
+        } else {
+            radius = random.nextInt(4) + 4;
+        }
 
         int centerX = random.nextInt(width - radius * 2 - 2) + radius + 1;
         int centerY = random.nextInt(height - radius * 2 - 2) + radius + 1;
@@ -108,7 +123,6 @@ public class LevelGenerator {
     }
 
     public void placeBossAndPlayer() {
-        // Search for biggest circle in room list
         RoomHelper bossRoom = null, playerRoom = null;
         int maxRadius = 0;
         double distance, maxDistance = 0;
@@ -122,7 +136,6 @@ public class LevelGenerator {
             }
         }
 
-        // Find room the furthest to boss room
         assert bossRoom != null;
         for (RoomHelper room : rooms) {
             distance = Math.sqrt(Math.pow(room.x - bossRoom.x, 2) + Math.pow(room.y - bossRoom.y, 2));
@@ -131,13 +144,15 @@ public class LevelGenerator {
             }
         }
 
-        // Get center of both rooms and mark them
         int[] center = bossRoom.getCenter();
         map[center[0]][center[1]] = TileType.DIRT.getValue();
 
         assert playerRoom != null;
         center = playerRoom.getCenter();
         map[center[0]][center[1]] = TileType.WATER.getValue();
+
+        gl.playerX = center[1] * gl.tileSize;
+        gl.playerY = center[0] * gl.tileSize;
     }
 
     private void writeToFile() {
