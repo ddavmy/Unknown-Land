@@ -22,8 +22,8 @@ public class GameLoop extends JPanel implements Runnable {
 
     // WORLD SETTINGS
     public final int maxWorldCol = 40;
-    public final int maxWorldRow = 20;
-    final int maxRoomQuantity = 4;
+    public final int maxWorldRow = 40;
+    final int maxRoomQuantity = 8;
 
     // FPS
     int FPS = 60;

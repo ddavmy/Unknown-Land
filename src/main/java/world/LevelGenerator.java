@@ -1,5 +1,8 @@
 package world;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class LevelGenerator {
@@ -52,6 +55,7 @@ public class LevelGenerator {
         fillMap();
         generateRooms();
         placeRoomsOnMap();
+        writeToFile();
     }
 
     private void fillMap() {
@@ -100,7 +104,7 @@ public class LevelGenerator {
     }
 
     private RoomHelper generateCircularRoom() {
-        int radius = random.nextInt(4) + 3;
+        int radius = random.nextInt(4) + 4;
 
         int centerX = random.nextInt(width - radius * 2 - 2) + radius + 1;
         int centerY = random.nextInt(height - radius * 2 - 2) + radius + 1;
@@ -111,6 +115,27 @@ public class LevelGenerator {
     private void placeRoomsOnMap() {
         for (RoomHelper room : rooms) {
             room.placeOnMap(map, TileType.PATH.getValue());
+        }
+    }
+
+    private void writeToFile() {
+        String resourceDirectory = "src/main/resources/maps";
+        String filePath = resourceDirectory + "/world02.txt";
+
+        try {
+            Files.createDirectories(Paths.get(resourceDirectory));
+            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath))) {
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        writer.write(map[y][x] + " ");
+                    }
+                    if (y == height - 1) break;
+                    writer.newLine();
+                }
+                System.out.println("Map saved successfully to " + filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
