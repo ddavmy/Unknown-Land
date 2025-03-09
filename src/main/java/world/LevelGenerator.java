@@ -3,15 +3,24 @@ package world;
 import java.util.*;
 
 public class LevelGenerator {
-    private int width, height, maxRoomQuantity;
-    private int[][] map;
-    private final Map<String, Integer> tile = new HashMap<>();
+    private final int width, height, maxRoomQuantity;
+    private final int[][] map;
     private final Random random;
-    private List<RoomHelper> rooms;
+    private final List<RoomHelper> rooms;
 
-    enum Tiles {
-        STONE,
-        PATH
+    enum TileType {
+        STONE(1),
+        PATH(5);
+
+        private final int value;
+
+        TileType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     public LevelGenerator(int width, int height, int roomQuantity) {
@@ -28,11 +37,11 @@ public class LevelGenerator {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (map[y][x] == 1) {
-                    System.out.print("■");
+                    System.out.print("■ ");
                 } else if (map[y][x] == 5) {
-                    System.out.print("□");
+                    System.out.print("□ ");
                 } else {
-                    System.out.println("☒");
+                    System.out.println("☒ ");
                 }
             }
             System.out.println();
@@ -40,21 +49,15 @@ public class LevelGenerator {
     }
 
     public void generate() {
-        getTiles();
         fillMap();
         generateRooms();
         placeRoomsOnMap();
     }
 
-    private void getTiles() {
-        tile.put(Tiles.STONE.name(), 1);
-        tile.put(Tiles.PATH.name(), 5);
-    }
-
     private void fillMap() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                map[y][x] = tile.get(Tiles.STONE.name());
+                map[y][x] = TileType.STONE.getValue();
             }
         }
     }
@@ -80,10 +83,9 @@ public class LevelGenerator {
                 }
 
                 rooms.add(newRoom);
-                attempt = 0;
+            } else {
+                attempt++;
             }
-
-            attempt++;
         }
     }
 
@@ -94,7 +96,7 @@ public class LevelGenerator {
         int roomX = random.nextInt(width - roomWidth - 2) + 1;
         int roomY = random.nextInt(height - roomHeight - 2) + 1;
 
-        return new RoomHelper(roomX, roomY, roomWidth, roomHeight, "rectangle");
+        return new RoomHelper(roomX, roomY, roomWidth, roomHeight, RoomHelper.Shapes.RECTANGLE);
     }
 
     private RoomHelper generateCircularRoom() {
@@ -103,12 +105,12 @@ public class LevelGenerator {
         int centerX = random.nextInt(width - radius * 2 - 2) + radius + 1;
         int centerY = random.nextInt(height - radius * 2 - 2) + radius + 1;
 
-        return new RoomHelper(centerX - radius, centerY - radius, radius * 2, radius * 2, "circle");
+        return new RoomHelper(centerX - radius, centerY - radius, radius * 2, radius * 2, RoomHelper.Shapes.CIRCLE);
     }
 
     private void placeRoomsOnMap() {
         for (RoomHelper room : rooms) {
-            room.placeOnMap(map, tile.get(Tiles.PATH.name()));
+            room.placeOnMap(map, TileType.PATH.getValue());
         }
     }
 }

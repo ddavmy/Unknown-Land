@@ -3,10 +3,15 @@ package world;
 import java.util.List;
 
 public class RoomHelper {
-    public int x, y, width, height;
-    public String type;
+    private final int x, y, width, height;
+    Shapes type;
 
-    public RoomHelper(int x, int y, int width, int height, String type) {
+    public enum Shapes {
+        RECTANGLE,
+        CIRCLE
+    }
+
+    public RoomHelper(int x, int y, int width, int height, Shapes type) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -35,8 +40,8 @@ public class RoomHelper {
 
     public void placeOnMap(int[][] map, int tileType) {
         switch (type) {
-            case "rectangle" -> placeRectangularRoom(map, tileType);
-            case "circle" -> placeCircularRoom(map, tileType);
+            case RECTANGLE -> placeRectangularRoom(map, tileType);
+            case CIRCLE -> placeCircularRoom(map, tileType);
         }
     }
 
