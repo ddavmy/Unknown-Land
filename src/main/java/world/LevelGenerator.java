@@ -80,11 +80,6 @@ public class LevelGenerator {
             }
 
             if (!newRoom.overlapsAnyRoom(rooms, newRoom)) {
-                switch (roomType) {
-                    case 0 -> System.out.println("Generating circular room");
-                    case 1 -> System.out.println("Generating rectangular room");
-                }
-
                 rooms.add(newRoom);
             } else {
                 attempt++;
@@ -132,6 +127,7 @@ public class LevelGenerator {
                 int radius = Math.min(room.width, room.height) / 2;
                 if (radius > maxRadius) {
                     bossRoom = room;
+                    maxRadius = radius;
                 }
             }
         }
@@ -141,6 +137,7 @@ public class LevelGenerator {
             distance = Math.sqrt(Math.pow(room.x - bossRoom.x, 2) + Math.pow(room.y - bossRoom.y, 2));
             if (distance > maxDistance) {
                 playerRoom = room;
+                maxDistance = distance;
             }
         }
 
