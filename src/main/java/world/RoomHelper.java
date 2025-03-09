@@ -3,7 +3,7 @@ package world;
 import java.util.List;
 
 public class RoomHelper {
-    private final int x, y, width, height;
+    public final int x, y, width, height;
     Shapes type;
 
     public enum Shapes {
@@ -75,5 +75,9 @@ public class RoomHelper {
                 }
             }
         }
+    }
+
+    public int[] getCenter() {
+        return new int[] {y + height / 2, x + width / 2};
     }
 }

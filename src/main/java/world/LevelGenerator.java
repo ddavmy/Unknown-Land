@@ -10,9 +10,12 @@ public class LevelGenerator {
     private final int[][] map;
     private final Random random;
     private final List<RoomHelper> rooms;
+    public int playerX, playerY;
 
     enum TileType {
+        DIRT(0),
         STONE(1),
+        WATER(3),
         PATH(5);
 
         private final int value;
@@ -34,27 +37,13 @@ public class LevelGenerator {
         this.map = new int[height][width];
         this.rooms = new ArrayList<>();
         generate();
-
-        System.out.println();
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (map[y][x] == 1) {
-                    System.out.print("■ ");
-                } else if (map[y][x] == 5) {
-                    System.out.print("□ ");
-                } else {
-                    System.out.println("☒ ");
-                }
-            }
-            System.out.println();
-        }
     }
 
     public void generate() {
         fillMap();
         generateRooms();
         placeRoomsOnMap();
+        placeBossOnMap();
         writeToFile();
     }
 
@@ -116,6 +105,32 @@ public class LevelGenerator {
         for (RoomHelper room : rooms) {
             room.placeOnMap(map, TileType.PATH.getValue());
         }
+    }
+
+    public void placeBossOnMap() {
+        // Search for biggest circle in room list
+        RoomHelper bossRoom = null;
+        for (RoomHelper room : rooms) {
+            int maxRadius = 0;
+            if (room.type == RoomHelper.Shapes.CIRCLE) {
+                int radius = Math.min(room.width, room.height) / 2;
+                if (radius > maxRadius) {
+                    bossRoom = room;
+                }
+            }
+        }
+
+        // Get center of this circle and mark it
+        assert bossRoom != null;
+        int[] center = bossRoom.getCenter();
+
+        map[center[0]][center[1]] = TileType.DIRT.getValue();
+    }
+
+    public void placePlayerOnMap() {
+        // search for room in opposite direction
+        // get center of this room
+        // mark this spot
     }
 
     private void writeToFile() {
