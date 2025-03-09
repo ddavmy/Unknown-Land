@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LevelGenerator {
     private int width, height, maxRoomQuantity;
-    private Integer[][] map;
+    private int[][] map;
     private final Map<String, Integer> tile = new HashMap<>();
     private final Random random;
     private List<RoomHelper> rooms;
@@ -19,17 +19,17 @@ public class LevelGenerator {
         this.width = width;
         this.height = height;
         this.maxRoomQuantity = roomQuantity;
-        this.map = new Integer[width][height];
+        this.map = new int[height][width];
         this.rooms = new ArrayList<>();
         generate();
 
         System.out.println();
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (map[j][i] == 1) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (map[y][x] == 1) {
                     System.out.print("■");
-                } else if (map[j][i] == 5) {
+                } else if (map[y][x] == 5) {
                     System.out.print("□");
                 } else {
                     System.out.println("☒");
@@ -52,9 +52,9 @@ public class LevelGenerator {
     }
 
     private void fillMap() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                map[j][i] = tile.get(Tiles.STONE.name());
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                map[y][x] = tile.get(Tiles.STONE.name());
             }
         }
     }

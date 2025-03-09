@@ -33,16 +33,16 @@ public class RoomHelper {
                 room2.y + room2.height + buffer <= room1.y);
     }
 
-    public void placeOnMap(Integer[][] map, int tileType) {
+    public void placeOnMap(int[][] map, int tileType) {
         switch (type) {
             case "rectangle" -> placeRectangularRoom(map, tileType);
             case "circle" -> placeCircularRoom(map, tileType);
         }
     }
 
-    private void placeRectangularRoom(Integer[][] map, int tileType) {
-        for (int dx = 0; dx < height; dx++) {
-            for (int dy = 0; dy < width; dy++) {
+    private void placeRectangularRoom(int[][] map, int tileType) {
+        for (int dy = 0; dy < height; dy++) {
+            for (int dx = 0; dx < width; dx++) {
                 int mapX = x + dx;
                 int mapY = y + dy;
 
@@ -53,18 +53,20 @@ public class RoomHelper {
         }
     }
 
-    private void placeCircularRoom(Integer[][] map, int tileType) {
+    private void placeCircularRoom(int[][] map, int tileType) {
         int centerX = x + width / 2;
         int centerY = y + height / 2;
         int radius = Math.min(width, height) / 2;
 
-        for (int dx = -radius; dx <= radius; dx++) {
-            for (int dy = -radius; dy <= radius; dy++) {
-                int mapX = centerX + dx;
-                int mapY = centerY + dy;
+        for (int dy = -radius; dy <= radius; dy++) {
+            for (int dx = -radius; dx <= radius; dx++) {
+                if (dx * dx + dy * dy <= radius * radius) {
+                    int mapX = centerX + dx;
+                    int mapY = centerY + dy;
 
-                if (mapX >= 0 && mapX < map[0].length && mapY >= 0 && mapY < map.length) {
-                    map[mapY][mapX] = tileType;
+                    if (mapX >= 0 && mapX < map[0].length && mapY >= 0 && mapY < map.length) {
+                        map[mapY][mapX] = tileType;
+                    }
                 }
             }
         }
