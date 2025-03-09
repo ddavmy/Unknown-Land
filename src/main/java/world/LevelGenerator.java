@@ -43,7 +43,7 @@ public class LevelGenerator {
         fillMap();
         generateRooms();
         placeRoomsOnMap();
-        placeBossOnMap();
+        placeBossAndPlayer();
         writeToFile();
     }
 
@@ -83,8 +83,8 @@ public class LevelGenerator {
     }
 
     private RoomHelper generateRectangularRoom() {
-        int roomWidth = random.nextInt(3) + 4;
-        int roomHeight = random.nextInt(3) + 4;
+        int roomWidth = (random.nextInt(2) * 2) + 5;
+        int roomHeight = (random.nextInt(2) * 2) + 5;
 
         int roomX = random.nextInt(width - roomWidth - 2) + 1;
         int roomY = random.nextInt(height - roomHeight - 2) + 1;
@@ -107,11 +107,13 @@ public class LevelGenerator {
         }
     }
 
-    public void placeBossOnMap() {
+    public void placeBossAndPlayer() {
         // Search for biggest circle in room list
-        RoomHelper bossRoom = null;
+        RoomHelper bossRoom = null, playerRoom = null;
+        int maxRadius = 0;
+        double distance, maxDistance = 0;
+
         for (RoomHelper room : rooms) {
-            int maxRadius = 0;
             if (room.type == RoomHelper.Shapes.CIRCLE) {
                 int radius = Math.min(room.width, room.height) / 2;
                 if (radius > maxRadius) {
@@ -120,17 +122,22 @@ public class LevelGenerator {
             }
         }
 
-        // Get center of this circle and mark it
+        // Find room the furthest to boss room
         assert bossRoom != null;
+        for (RoomHelper room : rooms) {
+            distance = Math.sqrt(Math.pow(room.x - bossRoom.x, 2) + Math.pow(room.y - bossRoom.y, 2));
+            if (distance > maxDistance) {
+                playerRoom = room;
+            }
+        }
+
+        // Get center of both rooms and mark them
         int[] center = bossRoom.getCenter();
-
         map[center[0]][center[1]] = TileType.DIRT.getValue();
-    }
 
-    public void placePlayerOnMap() {
-        // search for room in opposite direction
-        // get center of this room
-        // mark this spot
+        assert playerRoom != null;
+        center = playerRoom.getCenter();
+        map[center[0]][center[1]] = TileType.WATER.getValue();
     }
 
     private void writeToFile() {
