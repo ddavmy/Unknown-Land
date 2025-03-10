@@ -1,4 +1,4 @@
-package world;
+package levelgen;
 
 import java.util.List;
 

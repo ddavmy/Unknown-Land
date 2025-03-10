@@ -2,8 +2,8 @@ package main;
 
 import entity.Player;
 import object.SuperObject;
-import world.LevelGenerator;
-import world.TileManager;
+import levelgen.LevelGenerator;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
