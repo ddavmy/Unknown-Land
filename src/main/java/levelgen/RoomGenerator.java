@@ -98,6 +98,8 @@ public class RoomGenerator {
             throw new IllegalStateException("Boss room should be placed first");
         }
 
+        bossRoom.bossRoom = true;
+
         int bossX = bossRoom.x, bossY = bossRoom.y;
         for (RoomHelper room : rooms) {
             int dx = room.x - bossX;
@@ -122,5 +124,9 @@ public class RoomGenerator {
 
         gl.playerX = playerCenter[1] * gl.tileSize;
         gl.playerY = playerCenter[0] * gl.tileSize;
+    }
+
+    public List<RoomHelper> getRooms() {
+        return rooms;
     }
 }

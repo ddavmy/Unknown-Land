@@ -5,6 +5,7 @@ import main.GameLoop;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class LevelGenerator {
     public final int width, height, maxRoomQuantity;
@@ -42,9 +43,12 @@ public class LevelGenerator {
 
     public boolean generate() {
         RoomGenerator roomGen = new RoomGenerator(this);
+        CorridorGenerator corridorGenerator = new CorridorGenerator();
 
         fillMap();
         roomGen.generate(gl);
+        List<RoomHelper> rooms = roomGen.getRooms();
+        corridorGenerator.generate(rooms);
         writeToFile();
 
         return true;

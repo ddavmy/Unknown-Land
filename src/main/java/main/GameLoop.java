@@ -15,8 +15,6 @@ public class GameLoop extends JPanel implements Runnable {
         RUNNING
     }
 
-    private GameState gameState = GameState.LOADING;
-
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 tile
     public final int scale = 4;
@@ -36,6 +34,7 @@ public class GameLoop extends JPanel implements Runnable {
     int FPS = 60;
 
     // SYSTEM
+    private GameState gameState = GameState.LOADING;
     LevelGenerator levelGenerator = new LevelGenerator(this, maxWorldCol, maxWorldRow, maxRoomQuantity);
     TileManager tileManager = new TileManager(this);
     InputHandler inputHandler = new InputHandler();

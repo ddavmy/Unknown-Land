@@ -12,7 +12,7 @@ public class Sound {
     URL[] soundURL = new URL[30];
 
     public Sound() {
-        soundURL[0] = getClass().getResource("/sounds/background04.wav");
+        soundURL[0] = getClass().getResource("/sounds/background03.wav");
         soundURL[1] = getClass().getResource("/sounds/chest.wav");
         soundURL[2] = getClass().getResource("/sounds/footsteps.wav");
         soundURL[3] = getClass().getResource("/sounds/pickup01.wav");
