@@ -5,7 +5,6 @@ import java.util.List;
 public class RoomHelper {
     public final int x, y, width, height;
     Shapes type;
-    public boolean bossRoom;
 
     public enum Shapes {
         RECTANGLE,
@@ -80,9 +79,5 @@ public class RoomHelper {
 
     public int[] getCenter() {
         return new int[] {y + height / 2, x + width / 2};
-    }
-
-    public boolean isBossRoom() {
-        return bossRoom;
     }
 }

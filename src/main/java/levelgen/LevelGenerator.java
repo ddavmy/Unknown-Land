@@ -46,9 +46,9 @@ public class LevelGenerator {
         CorridorGenerator corridorGenerator = new CorridorGenerator(this);
 
         fillMap();
-        roomGen.generate(gl);
-        List<RoomHelper> rooms = roomGen.getRooms();
-        corridorGenerator.generate(rooms);
+        roomGen.generate();
+        corridorGenerator.generate(roomGen.getRooms());
+        roomGen.placeBossAndPlayer(gl);
         writeToFile();
 
         return true;

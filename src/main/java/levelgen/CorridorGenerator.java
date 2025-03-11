@@ -23,7 +23,7 @@ public class CorridorGenerator {
         List<Edge> mst = new ArrayList<>();
 
         for (int i = 0; i < rooms.size(); i++) {
-            for (int j = i + 1; j  < rooms.size(); j++) {
+            for (int j = i + 1; j < rooms.size(); j++) {
                 RoomHelper roomSrc = rooms.get(i);
                 RoomHelper roomDst = rooms.get(j);
                 int[] centerSrc = roomSrc.getCenter();
@@ -62,7 +62,7 @@ public class CorridorGenerator {
             for (int[] point : path) {
                 levelGen.map[point[0]][point[1]] = LevelGenerator.TileType.PATH.getValue();
             }
-         }
+        }
     }
 
     private List<int[]> findShortestPath(int[] start, int[] end) {

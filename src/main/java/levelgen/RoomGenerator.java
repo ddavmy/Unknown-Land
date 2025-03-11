@@ -18,10 +18,9 @@ public class RoomGenerator {
         rooms = new ArrayList<>();
     }
 
-    public void generate(GameLoop gl) {
+    public void generate() {
         generateRooms();
         placeRoomsOnMap();
-        placeBossAndPlayer(gl);
     }
 
     private void generateRooms() {
@@ -79,7 +78,7 @@ public class RoomGenerator {
         }
     }
 
-    private void placeBossAndPlayer(GameLoop gl) {
+    public void placeBossAndPlayer(GameLoop gl) {
         RoomHelper bossRoom = null, playerRoom = null;
         int maxRadius = 0;
         double maxDistance = 0;
@@ -97,8 +96,6 @@ public class RoomGenerator {
         if (bossRoom == null) {
             throw new IllegalStateException("Boss room should be placed first");
         }
-
-        bossRoom.bossRoom = true;
 
         int bossX = bossRoom.x, bossY = bossRoom.y;
         for (RoomHelper room : rooms) {
