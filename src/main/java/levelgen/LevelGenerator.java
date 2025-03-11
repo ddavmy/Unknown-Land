@@ -43,7 +43,7 @@ public class LevelGenerator {
 
     public boolean generate() {
         RoomGenerator roomGen = new RoomGenerator(this);
-        CorridorGenerator corridorGenerator = new CorridorGenerator();
+        CorridorGenerator corridorGenerator = new CorridorGenerator(this);
 
         fillMap();
         roomGen.generate(gl);
